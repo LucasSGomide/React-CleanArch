@@ -10,6 +10,8 @@
         "indent": ["error", 4],
         "@typescript-eslint/semi": [1, "never"],
         "semi": [1, "never"],
-        "comma-dangle": "off"
+        "comma-dangle": "off",
+        "space-before-function-paren": "off",
+        "@typescript-eslint/space-before-function-paren": "off"
     }
 }
