@@ -1,0 +1,12 @@
+{
+  "name": "cleaarch_react",
+  "version": "1.0.0",
+  "description": "- [DOCUMENTATION](http://fordevs.herokuapp.com/api-docs/#/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
