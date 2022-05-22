@@ -1,10 +1,13 @@
-import { IHttpPostClient } from 'data/protocols/http/IHttpPostClient'
+import {
+    HttpPostParams,
+    IHttpPostClient,
+} from 'data/protocols/http/IHttpPostClient'
 
 export class HttpPostClientSpy implements IHttpPostClient {
     url?: string
 
-    async post(url: string): Promise<void> {
-        this.url = url
+    async post(params: HttpPostParams): Promise<void> {
+        this.url = params.url
         return await Promise.resolve()
     }
 }
