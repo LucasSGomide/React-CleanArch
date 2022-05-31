@@ -1,5 +1,5 @@
-import { makeMockAuthParams } from '../../../domain/test/MockAuth'
 import faker from 'faker'
+import { createMockAuthParams } from '../../../domain/test/MockAuth'
 
 import { HttpPostClientSpy } from '../../test/MockHttpClient'
 import { RemoteAuth } from './RemoteAuth'
@@ -24,14 +24,14 @@ describe('RemoteAuth', () => {
         const url = faker.internet.url()
         const { sut, httpPostClientSpy } = makeSut(url)
 
-        await sut.auth(makeMockAuthParams())
+        await sut.auth(createMockAuthParams())
 
         expect(httpPostClientSpy.url).toBe(url)
     })
 
     test('Should call HttpPostClient with correct body', async () => {
         const { sut, httpPostClientSpy } = makeSut()
-        const authParams = makeMockAuthParams()
+        const authParams = createMockAuthParams()
         await sut.auth(authParams)
 
         expect(httpPostClientSpy.body).toEqual(authParams)
