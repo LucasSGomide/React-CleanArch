@@ -1,7 +1,7 @@
 import faker from 'faker'
-import { createMockAuthParams } from '../../../domain/test/MockAuth'
+import { createMockAuthParams } from '@/domain/test/MockAuth'
 
-import { HttpPostClientSpy } from '../../test/MockHttpClient'
+import { HttpPostClientSpy } from '@/data/test/MockHttpClient'
 import { RemoteAuth } from './RemoteAuth'
 
 type SutTypes = {
