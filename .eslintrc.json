@@ -7,7 +7,7 @@
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/indent": ["error", 4],
-        "indent": ["error", 4],
+        "indent": "off",
         "@typescript-eslint/semi": [1, "never"],
         "semi": [1, "never"],
         "comma-dangle": "off",
