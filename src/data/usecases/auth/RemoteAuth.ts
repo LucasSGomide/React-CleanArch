@@ -4,11 +4,15 @@ import { InvalidCredentialsError } from '@/domain/errors/InvalidCredentialsError
 
 import { IHttpPostClient } from '@/data/protocols/http/IHttpPostClient'
 import { HttpStatusCode } from '@/data/protocols/http/HttpReponse'
+import { AccountModel } from '@/domain/models/AccountModel'
 
 export class RemoteAuth {
     constructor(
         private readonly url: string,
-        private readonly httpPostClient: IHttpPostClient
+        private readonly httpPostClient: IHttpPostClient<
+            AuthParams,
+            AccountModel
+        >
     ) {}
 
     async auth(params: AuthParams): Promise<void> {
