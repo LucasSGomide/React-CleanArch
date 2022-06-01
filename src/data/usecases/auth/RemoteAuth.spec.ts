@@ -1,18 +1,14 @@
 import faker from 'faker'
 
-import {
-    createMockAccountModel,
-    createMockAuthParams,
-} from '@/domain/test/MockAccount'
-import { InvalidCredentialsError } from '@/domain/errors/InvalidCredentialsError'
-
-import { HttpPostClientSpy } from '@/data/test/MockHttpClient'
-import { HttpStatusCode } from '@/data/protocols/http/HttpReponse'
-
 import { RemoteAuth } from './RemoteAuth'
-import { UnexpectedError } from '@/domain/errors/UnexpectedError'
-import { AuthParams } from '@/domain/usecases/IAuthentication'
-import { AccountModel } from '@/domain/models/AccountModel'
+
+import { HttpPostClientSpy } from '@/data/test'
+import { HttpStatusCode } from '@/data/protocols/http'
+
+import { AuthParams } from '@/domain/usecases'
+import { AccountModel } from '@/domain/models'
+import { UnexpectedError, InvalidCredentialsError } from '@/domain/errors'
+import { createMockAccountModel, createMockAuthParams } from '@/domain/test'
 
 type SutTypes = {
     sut: RemoteAuth
@@ -111,6 +107,6 @@ describe('RemoteAuth', () => {
 
         const account = await sut.auth(authParams)
 
-        await expect(account).toEqual(httpResult)
+        expect(account).toEqual(httpResult)
     })
 })

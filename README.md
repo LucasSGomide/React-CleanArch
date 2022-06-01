@@ -12,3 +12,7 @@
     -   MockFunction: It's used for testing INPUT values
     -   StubFunction: It's used for testing OUTPUT values
     -   SpyFunction: It's used for testing INPUT and OUTPUT values.
+-   Make imports more readable
+    -   TypeScript: add attribute "_paths_" into "_tsconfig.json_"
+    -   Jest: add attribute "_moduleNameMapper_" into "_jest.config.js_"
+    -   Create "_index.ts_" files to export data located in shared folders
