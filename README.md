@@ -17,3 +17,4 @@
     -   Jest: add attribute "_moduleNameMapper_" into "_jest.config.js_"
     -   Create "_index.ts_" files to export data located in shared folders
 -   Implement "Adapter" design pattern to enforce external libraries to follow a defined interface
+-   YAGNI principle ("You Aren't Gonna Need It"): features should only be added when required
