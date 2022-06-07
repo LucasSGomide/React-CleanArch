@@ -16,3 +16,4 @@
     -   TypeScript: add attribute "_paths_" into "_tsconfig.json_"
     -   Jest: add attribute "_moduleNameMapper_" into "_jest.config.js_"
     -   Create "_index.ts_" files to export data located in shared folders
+-   Implement "Adapter" design pattern to enforce external libraries to follow a defined interface
