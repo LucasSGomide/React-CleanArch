@@ -4,6 +4,7 @@ import Styles from './login-styles.scss'
 import Spinner from '@/presentation/components/spinner/Spinner'
 import Header from '@/presentation/components/login/LoginHeader'
 import Footer from '@/presentation/components/footer/Footer'
+import Input from '@/presentation/components/input/Input'
 
 const Login: React.FC = () => {
     return (
@@ -11,23 +12,19 @@ const Login: React.FC = () => {
             <Header />
             <form className={Styles.form}>
                 <h2>Login</h2>
-                <div className={Styles.inputContainer}>
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Your e-mail..."
-                    />
-                    <span className={Styles.status}>🔴</span>
-                </div>
 
-                <div className={Styles.inputContainer}>
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Your password..."
-                    />
-                    <span className={Styles.status}>🔴</span>
-                </div>
+                <Input
+                    type="email"
+                    name="email"
+                    placeholder="Your e-mail here..."
+                />
+
+                <Input
+                    type="password"
+                    name="password"
+                    placeholder="Your password here..."
+                />
+
                 <button className={Styles.submit} type="submit">
                     Sign In
                 </button>
