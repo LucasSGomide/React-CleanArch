@@ -1,10 +1,10 @@
 import React from 'react'
 import Styles from './login-styles.scss'
 
-import Spinner from '@/presentation/components/spinner/Spinner'
 import Header from '@/presentation/components/login/LoginHeader'
-import Footer from '@/presentation/components/footer/Footer'
 import Input from '@/presentation/components/input/Input'
+import FormStatus from '@/presentation/components/form-status/FormStatus'
+import Footer from '@/presentation/components/footer/Footer'
 
 const Login: React.FC = () => {
     return (
@@ -30,10 +30,7 @@ const Login: React.FC = () => {
                 </button>
                 <span className={Styles.link}>Sign Up</span>
 
-                <div className={Styles.errorContainer}>
-                    <Spinner className={Styles.spinner} />
-                    <span className={Styles.error}>Erro</span>
-                </div>
+                <FormStatus />
             </form>
             <Footer />
         </div>
