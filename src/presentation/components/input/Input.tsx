@@ -1,6 +1,7 @@
 import React from 'react'
 import Styles from './input-styles.scss'
 
+// Type input as a real "input" tag so the custom component can support all the same props
 type Props = React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
