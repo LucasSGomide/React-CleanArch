@@ -12,8 +12,14 @@ describe('Login', () => {
         const signInButton = screen.getByRole('button', {
             name: 'Sign In',
         })
+        const emailStatus = screen.getByTestId('email-status')
+        const passwordStatus = screen.getByTestId('password-status')
 
         expect(errorContainer.childElementCount).toBe(0)
         expect(signInButton).toBeDisabled()
+        expect(emailStatus.title).toBe('Required field')
+        expect(emailStatus.textContent).toBe('🔴')
+        expect(passwordStatus.title).toBe('Required field')
+        expect(passwordStatus.textContent).toBe('🔴')
     })
 })
