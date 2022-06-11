@@ -7,47 +7,54 @@ import {
     FormStatus,
     Footer,
 } from '@/presentation/components'
-import FormContext from '@/presentation/context/form/FormContext'
+
+export type InputError = {
+    email: string
+    password: string
+    requestError: string
+}
 
 const Login: React.FC = () => {
     const [state] = useState({
         isLoading: false,
     })
 
-    const [errorState] = useState({
+    const [inputError] = useState<InputError>({
         email: 'Required field',
         password: 'Required field',
-        main: '',
+        requestError: '',
     })
 
     return (
         <div className={Styles.login}>
             <LoginHeader />
+            <form className={Styles.form}>
+                <h2>Login</h2>
 
-            <FormContext.Provider value={{ errorState, state }}>
-                <form className={Styles.form}>
-                    <h2>Login</h2>
+                <Input
+                    errorMessage={inputError.email}
+                    type="email"
+                    name="email"
+                    placeholder="Your e-mail here..."
+                />
 
-                    <Input
-                        type="email"
-                        name="email"
-                        placeholder="Your e-mail here..."
-                    />
+                <Input
+                    errorMessage={inputError.password}
+                    type="password"
+                    name="password"
+                    placeholder="Your password here..."
+                />
 
-                    <Input
-                        type="password"
-                        name="password"
-                        placeholder="Your password here..."
-                    />
+                <button disabled className={Styles.submit} type="submit">
+                    Sign In
+                </button>
+                <span className={Styles.link}>Sign Up</span>
 
-                    <button disabled className={Styles.submit} type="submit">
-                        Sign In
-                    </button>
-                    <span className={Styles.link}>Sign Up</span>
-
-                    <FormStatus />
-                </form>
-            </FormContext.Provider>
+                <FormStatus
+                    isLoading={state.isLoading}
+                    errorMessage={inputError.requestError}
+                />
+            </form>
             <Footer />
         </div>
     )
