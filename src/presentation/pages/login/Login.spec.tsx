@@ -56,12 +56,26 @@ describe('Login', () => {
     test('Should call validation with correct email', async () => {
         const { user, validationSpy } = makeSut()
 
-        const [emailInput] = screen.getAllByRole('textbox')
+        const emailInput = screen.getByRole('textbox')
 
         await user.type(emailInput, 'any_email')
 
         expect(validationSpy.input).toEqual({
             email: 'any_email',
+        })
+    })
+
+    test('Should call validation with correct password', async () => {
+        const { user, validationSpy } = makeSut()
+
+        const passwordInput = screen.getByPlaceholderText(
+            'Your password here...'
+        )
+
+        await user.type(passwordInput, 'any_password')
+
+        expect(validationSpy.input).toEqual({
+            password: 'any_password',
         })
     })
 })
