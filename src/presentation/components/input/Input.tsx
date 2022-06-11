@@ -6,6 +6,7 @@ type InputProps = {
     name: string
     placeholder: string
     errorMessage: string
+    onInputChange: React.Dispatch<React.SetStateAction<any>>
 }
 
 const Input: React.FC<InputProps> = ({
@@ -13,14 +14,24 @@ const Input: React.FC<InputProps> = ({
     name,
     placeholder,
     errorMessage,
+    onInputChange,
 }: InputProps) => {
-    const enableInput = (event: React.FocusEvent<HTMLInputElement>): void => {
-        event.target.readOnly = false
-    }
-
     const getStatus = (): string => '🔴'
 
     const getTitle = (): string => errorMessage
+
+    const handleChange = ({
+        target,
+    }: React.ChangeEvent<HTMLInputElement>): void => {
+        onInputChange((prev) => ({
+            ...prev,
+            [target.name]: target.value,
+        }))
+    }
+
+    const enableInput = (event: React.FocusEvent<HTMLInputElement>): void => {
+        event.target.readOnly = false
+    }
 
     return (
         <div className={Styles.inputContainer}>
@@ -30,6 +41,7 @@ const Input: React.FC<InputProps> = ({
                 placeholder={placeholder}
                 readOnly
                 onFocus={enableInput}
+                onChange={handleChange}
             />
             <span
                 data-testid={`${name}-status`}

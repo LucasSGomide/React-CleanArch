@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Styles from './login-styles.scss'
 
+import { IValidation } from '@/presentation/protocols/Validation'
 import {
     LoginHeader,
     Input,
@@ -8,22 +9,30 @@ import {
     Footer,
 } from '@/presentation/components'
 
-export type InputError = {
+type LoginState = {
+    isLoading: boolean
     email: string
-    password: string
+    emailError: string
+    passwordError: string
     requestError: string
 }
 
-const Login: React.FC = () => {
-    const [state] = useState({
-        isLoading: false,
-    })
+type LoginProps = {
+    validation: IValidation
+}
 
-    const [inputError] = useState<InputError>({
-        email: 'Required field',
-        password: 'Required field',
+const Login: React.FC<LoginProps> = ({ validation }) => {
+    const [state, setState] = useState<LoginState>({
+        isLoading: false,
+        email: '',
+        emailError: 'Required field',
+        passwordError: 'Required field',
         requestError: '',
     })
+
+    useEffect(() => {
+        validation.validate({ email: state.email })
+    }, [state.email])
 
     return (
         <div className={Styles.login}>
@@ -32,17 +41,19 @@ const Login: React.FC = () => {
                 <h2>Login</h2>
 
                 <Input
-                    errorMessage={inputError.email}
+                    errorMessage={state.emailError}
                     type="email"
                     name="email"
                     placeholder="Your e-mail here..."
+                    onInputChange={setState}
                 />
 
                 <Input
-                    errorMessage={inputError.password}
+                    errorMessage={state.passwordError}
                     type="password"
                     name="password"
                     placeholder="Your password here..."
+                    onInputChange={setState}
                 />
 
                 <button disabled className={Styles.submit} type="submit">
@@ -52,7 +63,7 @@ const Login: React.FC = () => {
 
                 <FormStatus
                     isLoading={state.isLoading}
-                    errorMessage={inputError.requestError}
+                    errorMessage={state.requestError}
                 />
             </form>
             <Footer />
