@@ -1,12 +1,18 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render, screen } from '@testing-library/react'
+import { render, screen, RenderResult } from '@testing-library/react'
 
 import Login from './Login'
 
+type SutTypes = RenderResult
+
+const makeSut = (): SutTypes => {
+    return render(<Login />)
+}
+
 describe('Login', () => {
     test('Should mount component with initial state', () => {
-        render(<Login />)
+        makeSut()
 
         const errorContainer = screen.getByTestId('error-container')
         const signInButton = screen.getByRole('button', {
