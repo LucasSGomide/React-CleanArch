@@ -1,5 +1,7 @@
 import React from 'react'
 import userEvent from '@testing-library/user-event'
+import faker from 'faker'
+
 import { render, screen } from '@testing-library/react'
 import { UserEvent } from '@testing-library/user-event/dist/types/setup'
 import '@testing-library/jest-dom/extend-expect'
@@ -45,24 +47,26 @@ describe('Login', () => {
     test('Should call validation with correct email', async () => {
         const { user, validationSpy } = makeSut()
 
+        const email = faker.internet.email()
         const emailInput = screen.getByRole('textbox')
 
-        await user.type(emailInput, 'any_email')
+        await user.type(emailInput, email)
 
         expect(validationSpy.fieldName).toBe('email')
-        expect(validationSpy.fieldValue).toBe('any_email')
+        expect(validationSpy.fieldValue).toBe(email)
     })
 
     test('Should call validation with correct password', async () => {
         const { user, validationSpy } = makeSut()
 
+        const password = faker.internet.password()
         const passwordInput = screen.getByPlaceholderText(
             'Your password here...'
         )
 
-        await user.type(passwordInput, 'any_password')
+        await user.type(passwordInput, password)
 
         expect(validationSpy.fieldName).toBe('password')
-        expect(validationSpy.fieldValue).toBe('any_password')
+        expect(validationSpy.fieldValue).toBe(password)
     })
 })
