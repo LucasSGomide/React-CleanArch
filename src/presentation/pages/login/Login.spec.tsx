@@ -5,24 +5,11 @@ import { UserEvent } from '@testing-library/user-event/dist/types/setup'
 import '@testing-library/jest-dom/extend-expect'
 
 import Login from './Login'
-import { IValidation } from '@/presentation/protocols/Validation'
+import { ValidationSpy } from '@/presentation/test'
 
 type SutTypes = {
     validationSpy: ValidationSpy
     user: UserEvent
-}
-
-class ValidationSpy implements IValidation {
-    errorMessage: string
-    fieldName: string
-    fieldValue: string
-
-    validate(fieldName: string, fieldValue: string): string {
-        this.fieldName = fieldName
-        this.fieldValue = fieldValue
-
-        return this.errorMessage
-    }
 }
 
 const makeSut = (): SutTypes => {
