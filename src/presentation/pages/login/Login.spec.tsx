@@ -117,4 +117,18 @@ describe('Login', () => {
         expect(passwordStatus.title).toBe('All good!')
         expect(passwordStatus.textContent).toBe('🟢')
     })
+
+    test('Should show valid email state if Validation succeeds', async () => {
+        const { user, validationSpy } = makeSut()
+
+        validationSpy.errorMessage = null
+        const emailInput = screen.getByRole('textbox')
+
+        await user.type(emailInput, faker.internet.email())
+
+        const emailStatus = screen.getByTestId('email-status')
+
+        expect(emailStatus.title).toBe('All good!')
+        expect(emailStatus.textContent).toBe('🟢')
+    })
 })
