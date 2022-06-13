@@ -16,6 +16,10 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
     const validationSpy = new ValidationSpy()
+    const errorMessage = faker.random.words()
+
+    validationSpy.errorMessage = errorMessage
+
     const user = userEvent.setup()
     render(<Login validation={validationSpy} />)
 
@@ -27,7 +31,7 @@ const makeSut = (): SutTypes => {
 
 describe('Login', () => {
     test('Should mount component with initial state', () => {
-        makeSut()
+        const { validationSpy } = makeSut()
 
         const errorContainer = screen.getByTestId('error-container')
         const signInButton = screen.getByRole('button', {
@@ -38,7 +42,7 @@ describe('Login', () => {
 
         expect(errorContainer.childElementCount).toBe(0)
         expect(signInButton).toBeDisabled()
-        expect(emailStatus.title).toBe('Required field')
+        expect(emailStatus.title).toBe(validationSpy.errorMessage)
         expect(emailStatus.textContent).toBe('🔴')
         expect(passwordStatus.title).toBe('Required field')
         expect(passwordStatus.textContent).toBe('🔴')
@@ -68,5 +72,18 @@ describe('Login', () => {
 
         expect(validationSpy.fieldName).toBe('password')
         expect(validationSpy.fieldValue).toBe(password)
+    })
+
+    test('Should show email error if Validation fails', async () => {
+        const { user, validationSpy } = makeSut()
+
+        const emailInput = screen.getByRole('textbox')
+
+        await user.type(emailInput, faker.internet.email())
+
+        const emailStatus = screen.getByTestId('email-status')
+
+        expect(emailStatus.title).toBe(validationSpy.errorMessage)
+        expect(emailStatus.textContent).toBe('🔴')
     })
 })
