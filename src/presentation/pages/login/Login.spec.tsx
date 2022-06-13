@@ -101,4 +101,20 @@ describe('Login', () => {
         expect(passwordStatus.title).toBe(validationSpy.errorMessage)
         expect(passwordStatus.textContent).toBe('🔴')
     })
+
+    test('Should show valid password state if Validation succeeds', async () => {
+        const { user, validationSpy } = makeSut()
+
+        validationSpy.errorMessage = null
+        const passwordInput = screen.getByPlaceholderText(
+            'Your password here...'
+        )
+
+        await user.type(passwordInput, faker.internet.password())
+
+        const passwordStatus = screen.getByTestId('password-status')
+
+        expect(passwordStatus.title).toBe('All good!')
+        expect(passwordStatus.textContent).toBe('🟢')
+    })
 })
