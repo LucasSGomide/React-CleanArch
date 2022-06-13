@@ -16,9 +16,9 @@ const Input: React.FC<InputProps> = ({
     errorMessage,
     onInputChange,
 }: InputProps) => {
-    const getStatus = (): string => '🔴'
+    const getStatus = (): string => (errorMessage ? '🔴' : '🟢')
 
-    const getTitle = (): string => errorMessage
+    const getTitle = (): string => errorMessage || 'All good!'
 
     const handleChange = ({
         target,
