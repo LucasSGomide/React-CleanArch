@@ -44,7 +44,7 @@ describe('Login', () => {
         expect(signInButton).toBeDisabled()
         expect(emailStatus.title).toBe(validationSpy.errorMessage)
         expect(emailStatus.textContent).toBe('🔴')
-        expect(passwordStatus.title).toBe('Required field')
+        expect(passwordStatus.title).toBe(validationSpy.errorMessage)
         expect(passwordStatus.textContent).toBe('🔴')
     })
 
@@ -85,5 +85,20 @@ describe('Login', () => {
 
         expect(emailStatus.title).toBe(validationSpy.errorMessage)
         expect(emailStatus.textContent).toBe('🔴')
+    })
+
+    test('Should show password error if Validation fails', async () => {
+        const { user, validationSpy } = makeSut()
+
+        const passwordInput = screen.getByPlaceholderText(
+            'Your password here...'
+        )
+
+        await user.type(passwordInput, faker.internet.password())
+
+        const passwordStatus = screen.getByTestId('password-status')
+
+        expect(passwordStatus.title).toBe(validationSpy.errorMessage)
+        expect(passwordStatus.textContent).toBe('🔴')
     })
 })
