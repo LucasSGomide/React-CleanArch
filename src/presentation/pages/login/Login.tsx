@@ -33,7 +33,10 @@ const Login: React.FC<LoginProps> = ({ validation }) => {
     })
 
     useEffect(() => {
-        validation.validate('email', state.email)
+        setState((prevState) => ({
+            ...prevState,
+            emailError: validation.validate('email', state.email),
+        }))
     }, [state.email])
 
     useEffect(() => {
