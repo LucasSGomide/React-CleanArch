@@ -14,11 +14,14 @@ type SutTypes = {
     user: UserEvent
 }
 
-const makeSut = (): SutTypes => {
-    const validationSpy = new ValidationSpy()
-    const errorMessage = faker.random.words()
+type SutParams = {
+    validationError: string
+}
 
-    validationSpy.errorMessage = errorMessage
+const makeSut = (params?: SutParams): SutTypes => {
+    const validationSpy = new ValidationSpy()
+
+    validationSpy.errorMessage = params?.validationError
 
     const user = userEvent.setup()
     render(<Login validation={validationSpy} />)
@@ -31,7 +34,9 @@ const makeSut = (): SutTypes => {
 
 describe('Login', () => {
     test('Should mount component with initial state', () => {
-        const { validationSpy } = makeSut()
+        const validationError = faker.random.words()
+
+        const { validationSpy } = makeSut({ validationError })
 
         const errorContainer = screen.getByTestId('error-container')
         const signInButton = screen.getByRole('button', {
@@ -75,7 +80,8 @@ describe('Login', () => {
     })
 
     test('Should show email error if Validation fails', async () => {
-        const { user, validationSpy } = makeSut()
+        const validationError = faker.random.words()
+        const { user, validationSpy } = makeSut({ validationError })
 
         const emailInput = screen.getByRole('textbox')
 
@@ -88,7 +94,8 @@ describe('Login', () => {
     })
 
     test('Should show password error if Validation fails', async () => {
-        const { user, validationSpy } = makeSut()
+        const validationError = faker.random.words()
+        const { user, validationSpy } = makeSut({ validationError })
 
         const passwordInput = screen.getByPlaceholderText(
             'Your password here...'
@@ -103,9 +110,8 @@ describe('Login', () => {
     })
 
     test('Should show valid password state if Validation succeeds', async () => {
-        const { user, validationSpy } = makeSut()
+        const { user } = makeSut()
 
-        validationSpy.errorMessage = null
         const passwordInput = screen.getByPlaceholderText(
             'Your password here...'
         )
@@ -119,9 +125,8 @@ describe('Login', () => {
     })
 
     test('Should show valid email state if Validation succeeds', async () => {
-        const { user, validationSpy } = makeSut()
+        const { user } = makeSut()
 
-        validationSpy.errorMessage = null
         const emailInput = screen.getByRole('textbox')
 
         await user.type(emailInput, faker.internet.email())
@@ -133,9 +138,7 @@ describe('Login', () => {
     })
 
     test('Should enable submit button if form is valid', async () => {
-        const { user, validationSpy } = makeSut()
-
-        validationSpy.errorMessage = null
+        const { user } = makeSut()
 
         const emailInput = screen.getByRole('textbox')
         const passwordInput = screen.getByPlaceholderText(
