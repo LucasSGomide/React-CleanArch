@@ -68,7 +68,11 @@ const Login: React.FC<LoginProps> = ({ validation }) => {
                     onInputChange={setState}
                 />
 
-                <button disabled className={Styles.submit} type="submit">
+                <button
+                    disabled={!!state.passwordError || !!state.emailError}
+                    className={Styles.submit}
+                    type="submit"
+                >
                     Sign In
                 </button>
                 <span className={Styles.link}>Sign Up</span>
