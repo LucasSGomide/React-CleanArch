@@ -53,6 +53,8 @@ const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
     ): Promise<void> => {
         event.preventDefault()
 
+        if (state.isLoading) return
+
         setState((prevState) => ({
             ...prevState,
             isLoading: true,
