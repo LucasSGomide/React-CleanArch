@@ -53,7 +53,7 @@ const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
     ): Promise<void> => {
         event.preventDefault()
 
-        if (state.isLoading) return
+        if (state.isLoading || state.passwordError || state.emailError) return
 
         setState((prevState) => ({
             ...prevState,
@@ -69,7 +69,11 @@ const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
     return (
         <div className={Styles.login}>
             <LoginHeader />
-            <form className={Styles.form} onSubmit={handleSubmit}>
+            <form
+                className={Styles.form}
+                onSubmit={handleSubmit}
+                name="login-form"
+            >
                 <h2>Login</h2>
 
                 <Input
