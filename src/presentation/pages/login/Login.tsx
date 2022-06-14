@@ -46,10 +46,19 @@ const Login: React.FC<LoginProps> = ({ validation }) => {
         }))
     }, [state.password])
 
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+        event.preventDefault()
+
+        setState((prevState) => ({
+            ...prevState,
+            isLoading: true,
+        }))
+    }
+
     return (
         <div className={Styles.login}>
             <LoginHeader />
-            <form className={Styles.form}>
+            <form className={Styles.form} onSubmit={handleSubmit}>
                 <h2>Login</h2>
 
                 <Input
