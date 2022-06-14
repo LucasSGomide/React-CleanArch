@@ -8,6 +8,7 @@ import {
     FormStatus,
     Footer,
 } from '@/presentation/components'
+import { IAuthentication } from '@/domain/usecases'
 
 type LoginState = {
     isLoading: boolean
@@ -20,9 +21,10 @@ type LoginState = {
 
 type LoginProps = {
     validation: IValidation
+    authentication: IAuthentication
 }
 
-const Login: React.FC<LoginProps> = ({ validation }) => {
+const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
     const [state, setState] = useState<LoginState>({
         isLoading: false,
         email: '',
@@ -46,13 +48,20 @@ const Login: React.FC<LoginProps> = ({ validation }) => {
         }))
     }, [state.password])
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    const handleSubmit = async (
+        event: React.FormEvent<HTMLFormElement>
+    ): Promise<void> => {
         event.preventDefault()
 
         setState((prevState) => ({
             ...prevState,
             isLoading: true,
         }))
+
+        await authentication.auth({
+            email: state.email,
+            password: state.password,
+        })
     }
 
     return (
