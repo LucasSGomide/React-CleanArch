@@ -1,7 +1,7 @@
 import React from 'react'
 import faker from 'faker'
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { UserEvent } from '@testing-library/user-event/dist/types/setup'
 import '@testing-library/jest-dom/extend-expect'
 
@@ -199,5 +199,20 @@ describe('Login', () => {
         await userEvent.click(signInButton)
 
         expect(authenticationSpy.callsCount).toBe(1)
+    })
+
+    test('Should not call authentication if form is invalid', async () => {
+        const validationError = faker.random.words()
+        const { user, authenticationSpy } = makeSut({ validationError })
+
+        const email = faker.internet.email()
+
+        await populateEmailField(user, email)
+
+        const form = screen.getByRole('form')
+
+        fireEvent.submit(form)
+
+        expect(authenticationSpy.callsCount).toBe(0)
     })
 })
