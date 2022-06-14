@@ -183,4 +183,21 @@ describe('Login', () => {
 
         expect(authenticationSpy.params).toEqual({ email, password })
     })
+
+    test('Should call authentication only once', async () => {
+        const { user, authenticationSpy } = makeSut()
+
+        const email = faker.internet.email()
+        const password = faker.internet.password()
+
+        await populateEmailField(user, email)
+        await populatePasswordField(user, password)
+
+        const signInButton = screen.getByRole('button', { name: 'Sign In' })
+
+        await userEvent.click(signInButton)
+        await userEvent.click(signInButton)
+
+        expect(authenticationSpy.callsCount).toBe(1)
+    })
 })
