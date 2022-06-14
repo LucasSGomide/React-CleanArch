@@ -152,4 +152,24 @@ describe('Login', () => {
 
         expect(signInButton).toBeEnabled()
     })
+
+    test('Should show spin on submit', async () => {
+        const { user } = makeSut()
+
+        const emailInput = screen.getByRole('textbox')
+        const passwordInput = screen.getByPlaceholderText(
+            'Your password here...'
+        )
+
+        await user.type(passwordInput, faker.internet.password())
+        await user.type(emailInput, faker.internet.email())
+
+        const signInButton = screen.getByRole('button', { name: 'Sign In' })
+
+        await userEvent.click(signInButton)
+
+        const spinner = screen.getByTestId('spinner')
+
+        expect(spinner).toBeInTheDocument()
+    })
 })
