@@ -6,21 +6,7 @@ import { UserEvent } from '@testing-library/user-event/dist/types/setup'
 import '@testing-library/jest-dom/extend-expect'
 
 import Login from './Login'
-import { ValidationSpy } from '@/presentation/test'
-import { AccountModel } from '@/domain/models'
-import { AuthParams, IAuthentication } from '@/domain/usecases'
-import { createMockAccountModel } from '@/domain/test'
-
-class AuthenticationSpy implements IAuthentication {
-    account = createMockAccountModel()
-    params: AuthParams
-
-    async auth(params: AuthParams): Promise<AccountModel> {
-        this.params = params
-
-        return this.account
-    }
-}
+import { ValidationSpy, AuthenticationSpy } from '@/presentation/test'
 
 type SutTypes = {
     validationSpy: ValidationSpy

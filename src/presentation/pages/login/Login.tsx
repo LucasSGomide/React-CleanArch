@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Styles from './login-styles.scss'
 
+import { IAuthentication } from '@/domain/usecases'
 import { IValidation } from '@/presentation/protocols/Validation'
 import {
     LoginHeader,
@@ -8,7 +9,6 @@ import {
     FormStatus,
     Footer,
 } from '@/presentation/components'
-import { IAuthentication } from '@/domain/usecases'
 
 type LoginState = {
     isLoading: boolean
