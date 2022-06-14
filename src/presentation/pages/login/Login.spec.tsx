@@ -131,4 +131,22 @@ describe('Login', () => {
         expect(emailStatus.title).toBe('All good!')
         expect(emailStatus.textContent).toBe('🟢')
     })
+
+    test('Should enable submit button if form is valid', async () => {
+        const { user, validationSpy } = makeSut()
+
+        validationSpy.errorMessage = null
+
+        const emailInput = screen.getByRole('textbox')
+        const passwordInput = screen.getByPlaceholderText(
+            'Your password here...'
+        )
+
+        await user.type(passwordInput, faker.internet.password())
+        await user.type(emailInput, faker.internet.email())
+
+        const signInButton = screen.getByRole('button', { name: 'Sign In' })
+
+        expect(signInButton).toBeEnabled()
+    })
 })
