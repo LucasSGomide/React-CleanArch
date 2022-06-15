@@ -1,12 +1,13 @@
 import React from 'react'
 import faker from 'faker'
 import userEvent from '@testing-library/user-event'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { UserEvent } from '@testing-library/user-event/dist/types/setup'
 import '@testing-library/jest-dom/extend-expect'
 
 import Login from './Login'
 import { ValidationSpy, AuthenticationSpy } from '@/presentation/test'
+import { InvalidCredentialsError } from '@/domain/errors'
 
 type SutTypes = {
     validationSpy: ValidationSpy
@@ -214,5 +215,23 @@ describe('Login', () => {
         fireEvent.submit(form)
 
         expect(authenticationSpy.callsCount).toBe(0)
+    })
+
+    test.only('Should present error if authentication', async () => {
+        const { user, authenticationSpy } = makeSut()
+
+        const error = new InvalidCredentialsError()
+        jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
+
+        const email = faker.internet.email()
+        const password = faker.internet.password()
+
+        await simulateValidSubmit(user, email, password)
+
+        const errorContainer = screen.getByTestId('error-container')
+        const errorMessage = within(errorContainer).getByText(error.message)
+
+        expect(errorContainer.childElementCount).toBe(1)
+        expect(errorMessage).toBeInTheDocument()
     })
 })
