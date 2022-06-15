@@ -1,6 +1,7 @@
 import React from 'react'
 import faker from 'faker'
 import userEvent from '@testing-library/user-event'
+import { createMemoryHistory, MemoryHistory } from 'history'
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { UserEvent } from '@testing-library/user-event/dist/types/setup'
 import '@testing-library/jest-dom/extend-expect'
@@ -9,11 +10,13 @@ import 'jest-localstorage-mock'
 import Login from './Login'
 import { ValidationSpy, AuthenticationSpy } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
+import { Router } from 'react-router-dom'
 
 type SutTypes = {
     validationSpy: ValidationSpy
     user: UserEvent
     authenticationSpy: AuthenticationSpy
+    history: MemoryHistory
 }
 
 type SutParams = {
@@ -21,6 +24,7 @@ type SutParams = {
 }
 
 const makeSut = (params?: SutParams): SutTypes => {
+    const history = createMemoryHistory()
     const validationSpy = new ValidationSpy()
     const authenticationSpy = new AuthenticationSpy()
 
@@ -28,12 +32,18 @@ const makeSut = (params?: SutParams): SutTypes => {
 
     const user = userEvent.setup()
     render(
-        <Login validation={validationSpy} authentication={authenticationSpy} />
+        <Router location={history.location} navigator={history}>
+            <Login
+                validation={validationSpy}
+                authentication={authenticationSpy}
+            />
+        </Router>
     )
 
     return {
         validationSpy,
         authenticationSpy,
+        history,
         user,
     }
 }
@@ -222,8 +232,8 @@ describe('Login', () => {
 
     test('Should present error if authentication fail', async () => {
         const { user, authenticationSpy } = makeSut()
-
         const error = new InvalidCredentialsError()
+
         jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
 
         const email = faker.internet.email()
@@ -250,5 +260,18 @@ describe('Login', () => {
             'accessToken',
             authenticationSpy.account.accessToken
         )
+    })
+
+    test('Should go to to sign up page', async () => {
+        const { user, history } = makeSut()
+        const signUpLink = screen.getByRole('link')
+
+        expect(history.location.pathname).toBe('/')
+        expect(history.index).toBe(0)
+
+        await user.click(signUpLink)
+
+        expect(history.location.pathname).toBe('/signup')
+        expect(history.index).toBe(1)
     })
 })
