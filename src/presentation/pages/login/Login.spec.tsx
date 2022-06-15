@@ -2,7 +2,7 @@ import React from 'react'
 import faker from 'faker'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory, MemoryHistory } from 'history'
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { UserEvent } from '@testing-library/user-event/dist/types/setup'
 import '@testing-library/jest-dom/extend-expect'
 import 'jest-localstorage-mock'
@@ -79,7 +79,7 @@ const populatePasswordField = async (
     await user.type(passwordInput, password)
 }
 
-const simulateFieldStatus = (
+const testFieldStatus = (
     field: string,
     validationSpy: ValidationSpy,
     validationError?: string
@@ -108,8 +108,8 @@ describe('Login', () => {
         expect(errorContainer.childElementCount).toBe(0)
         expect(signInButton).toBeDisabled()
 
-        simulateFieldStatus('email', validationSpy, validationError)
-        simulateFieldStatus('password', validationSpy, validationError)
+        testFieldStatus('email', validationSpy, validationError)
+        testFieldStatus('password', validationSpy, validationError)
     })
 
     test('Should call validation with correct email', async () => {
@@ -138,7 +138,7 @@ describe('Login', () => {
 
         await populateEmailField(user)
 
-        simulateFieldStatus('email', validationSpy, validationError)
+        testFieldStatus('email', validationSpy, validationError)
     })
 
     test('Should show password error if Validation fails', async () => {
@@ -147,7 +147,7 @@ describe('Login', () => {
 
         await populatePasswordField(user)
 
-        simulateFieldStatus('password', validationSpy, validationError)
+        testFieldStatus('password', validationSpy, validationError)
     })
 
     test('Should show valid password state if Validation succeeds', async () => {
@@ -155,7 +155,7 @@ describe('Login', () => {
 
         await populatePasswordField(user)
 
-        simulateFieldStatus('password', validationSpy)
+        testFieldStatus('password', validationSpy)
     })
 
     test('Should show valid email state if Validation succeeds', async () => {
@@ -163,7 +163,7 @@ describe('Login', () => {
 
         await populateEmailField(user)
 
-        simulateFieldStatus('email', validationSpy)
+        testFieldStatus('email', validationSpy)
     })
 
     test('Should enable submit button if form is valid', async () => {
@@ -219,13 +219,7 @@ describe('Login', () => {
         const validationError = faker.random.words()
         const { user, authenticationSpy } = makeSut({ validationError })
 
-        const email = faker.internet.email()
-
-        await populateEmailField(user, email)
-
-        const form = screen.getByRole('form')
-
-        fireEvent.submit(form)
+        await simulateValidSubmit(user)
 
         expect(authenticationSpy.callsCount).toBe(0)
     })
@@ -236,10 +230,7 @@ describe('Login', () => {
 
         jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
 
-        const email = faker.internet.email()
-        const password = faker.internet.password()
-
-        await simulateValidSubmit(user, email, password)
+        await simulateValidSubmit(user)
 
         const errorContainer = screen.getByTestId('error-container')
         const errorMessage = within(errorContainer).getByText(error.message)
@@ -251,13 +242,10 @@ describe('Login', () => {
     test('Should add accessToken to localstorage on success', async () => {
         const { user, history, authenticationSpy } = makeSut()
 
-        const email = faker.internet.email()
-        const password = faker.internet.password()
-
         expect(history.location.pathname).toBe('/login')
         expect(history.index).toBe(0)
 
-        await simulateValidSubmit(user, email, password)
+        await simulateValidSubmit(user)
 
         expect(localStorage.setItem).toHaveBeenCalledWith(
             'accessToken',
