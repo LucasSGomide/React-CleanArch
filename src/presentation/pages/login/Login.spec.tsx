@@ -217,7 +217,7 @@ describe('Login', () => {
         expect(authenticationSpy.callsCount).toBe(0)
     })
 
-    test.only('Should present error if authentication', async () => {
+    test('Should present error if authentication fail', async () => {
         const { user, authenticationSpy } = makeSut()
 
         const error = new InvalidCredentialsError()
