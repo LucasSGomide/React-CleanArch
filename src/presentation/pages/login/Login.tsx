@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Styles from './login-styles.scss'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { IAuthentication } from '@/domain/usecases'
 import { IValidation } from '@/presentation/protocols/Validation'
@@ -26,6 +26,7 @@ type LoginProps = {
 }
 
 const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
+    const navigate = useNavigate()
     const [state, setState] = useState<LoginState>({
         isLoading: false,
         email: '',
@@ -70,6 +71,7 @@ const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
             })
 
             localStorage.setItem('accessToken', account.accessToken)
+            navigate('/')
         } catch (err) {
             setState((prevstate) => ({
                 ...prevstate,
