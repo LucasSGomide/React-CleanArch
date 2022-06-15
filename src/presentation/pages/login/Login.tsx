@@ -53,17 +53,27 @@ const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
     ): Promise<void> => {
         event.preventDefault()
 
-        if (state.isLoading || state.passwordError || state.emailError) return
+        try {
+            if (state.isLoading || state.passwordError || state.emailError) {
+                return
+            }
 
-        setState((prevState) => ({
-            ...prevState,
-            isLoading: true,
-        }))
+            setState((prevState) => ({
+                ...prevState,
+                isLoading: true,
+            }))
 
-        await authentication.auth({
-            email: state.email,
-            password: state.password,
-        })
+            await authentication.auth({
+                email: state.email,
+                password: state.password,
+            })
+        } catch (err) {
+            setState((prevstate) => ({
+                ...prevstate,
+                requestError: err.message,
+                isLoading: false,
+            }))
+        }
     }
 
     return (
