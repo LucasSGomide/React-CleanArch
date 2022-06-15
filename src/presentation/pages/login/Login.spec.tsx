@@ -24,7 +24,7 @@ type SutParams = {
 }
 
 const makeSut = (params?: SutParams): SutTypes => {
-    const history = createMemoryHistory()
+    const history = createMemoryHistory({ initialEntries: ['/login'] })
     const validationSpy = new ValidationSpy()
     const authenticationSpy = new AuthenticationSpy()
 
@@ -249,10 +249,13 @@ describe('Login', () => {
     })
 
     test('Should add accessToken to localstorage on success', async () => {
-        const { user, authenticationSpy } = makeSut()
+        const { user, history, authenticationSpy } = makeSut()
 
         const email = faker.internet.email()
         const password = faker.internet.password()
+
+        expect(history.location.pathname).toBe('/login')
+        expect(history.index).toBe(0)
 
         await simulateValidSubmit(user, email, password)
 
@@ -260,13 +263,16 @@ describe('Login', () => {
             'accessToken',
             authenticationSpy.account.accessToken
         )
+
+        expect(history.location.pathname).toBe('/')
+        expect(history.index).toBe(1)
     })
 
     test('Should go to to sign up page', async () => {
         const { user, history } = makeSut()
         const signUpLink = screen.getByRole('link')
 
-        expect(history.location.pathname).toBe('/')
+        expect(history.location.pathname).toBe('/login')
         expect(history.index).toBe(0)
 
         await user.click(signUpLink)
