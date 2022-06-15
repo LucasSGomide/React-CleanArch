@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Styles from './login-styles.scss'
+import { Link } from 'react-router-dom'
 
 import { IAuthentication } from '@/domain/usecases'
 import { IValidation } from '@/presentation/protocols/Validation'
@@ -111,7 +112,9 @@ const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
                 >
                     Sign In
                 </button>
-                <span className={Styles.link}>Sign Up</span>
+                <Link to="/signup" className={Styles.link}>
+                    Sign Up
+                </Link>
 
                 <FormStatus
                     isLoading={state.isLoading}
