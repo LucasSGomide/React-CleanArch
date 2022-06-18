@@ -1,8 +1,11 @@
-name: GitHub Actions Demo
+name: CleanReact Lint & Test
 on: [push]
 jobs:
-    EsLint:
+    lint:
         runs-on: ubuntu-latest
         steps:
-            - run: eslint 'src/**'
+            - run: npx eslint 'src/**'
+    test:
+        runs-on: ubuntu-latest
+        steps:
             - run: npm run test:ci
