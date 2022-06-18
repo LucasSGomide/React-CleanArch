@@ -1,4 +1,5 @@
 ![JOB-STATUS](https://github.com/LucasSGomide/cleanArch_React/actions/workflows/github-action.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/LucasSGomide/cleanArch_React/badge.svg?branch=main)](https://coveralls.io/github/LucasSGomide/cleanArch_React?branch=main)
 
 ### API Documentation:
 
