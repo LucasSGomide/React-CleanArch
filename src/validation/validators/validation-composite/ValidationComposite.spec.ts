@@ -1,17 +1,30 @@
 import { FieldValidatorSpy } from '../test/MockFIeldValidation'
 import { ValidationComposite } from './ValidationComposite'
 
+type SutTypes = {
+    sut: ValidationComposite
+    validators: FieldValidatorSpy[]
+}
+
+const makeSut = (): SutTypes => {
+    const validators = [
+        new FieldValidatorSpy('any_field'),
+        new FieldValidatorSpy('any_field'),
+    ]
+
+    const sut = new ValidationComposite(validators)
+
+    return {
+        sut,
+        validators,
+    }
+}
+
 describe('ValidationComposite', () => {
     test('Sould return error if any validation fails', () => {
-        const fieldValdiatorSpy = new FieldValidatorSpy('any_field')
-        const fieldValdiatorSpyError = new FieldValidatorSpy('any_field')
+        const { sut, validators } = makeSut()
 
-        fieldValdiatorSpyError.error = new Error('any_error')
-
-        const sut = new ValidationComposite([
-            fieldValdiatorSpy,
-            fieldValdiatorSpyError,
-        ])
+        validators[0].error = new Error('any_error')
 
         const error = sut.validate('any_field', 'any_value')
 
@@ -19,16 +32,10 @@ describe('ValidationComposite', () => {
     })
 
     test('Sould return the first error found', () => {
-        const fieldValdiatorSpyFirstError = new FieldValidatorSpy('any_field')
-        const fieldValdiatorSpySecondError = new FieldValidatorSpy('any_field')
+        const { sut, validators } = makeSut()
 
-        fieldValdiatorSpyFirstError.error = new Error('first_error')
-        fieldValdiatorSpySecondError.error = new Error('second_error')
-
-        const sut = new ValidationComposite([
-            fieldValdiatorSpyFirstError,
-            fieldValdiatorSpySecondError,
-        ])
+        validators[0].error = new Error('first_error')
+        validators[1].error = new Error('second_error')
 
         const error = sut.validate('any_field', 'any_value')
 
