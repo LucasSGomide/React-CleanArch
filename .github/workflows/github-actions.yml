@@ -19,4 +19,4 @@ jobs:
               run: npm ci
 
             - name: run ESLint
-            - run: npx eslint 'src/**'
+              run: npx eslint 'src/**'
