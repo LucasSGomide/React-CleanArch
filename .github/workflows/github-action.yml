@@ -34,5 +34,5 @@ jobs:
             - name: install
               run: npm ci
 
-            - name: Test Coveralls
-              run: npm run test:coveralls
+            - name: Unit Test
+              run: npm run test:ci
