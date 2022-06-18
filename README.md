@@ -1,3 +1,7 @@
+### Workflow Status
+
+![TEST](https://github.com/LucasSGomide/cleanArch_React/actions/workflows/github-action.yml/badge.svg)
+
 ### API Documentation:
 
 -   [DOCUMENTATION](http://fordevs.herokuapp.com/api-docs/#/)
