@@ -18,3 +18,12 @@
     -   Create "_index.ts_" files to export data located in shared folders
 -   Implement "Adapter" design pattern to enforce external libraries to follow a defined interface
 -   YAGNI principle ("You Aren't Gonna Need It"): features should only be added when required
+-   Implement "Composite" design pattern to execute different kinds of field validations (Ex: Required Field, Min Length, Email, Phone Number, etc...) for a specific field name.
+    -   Ex:
+        -   Field: fullName
+        -   Validations: RequiredField, MinLength
+-   Implement "Builder" design pattern to "build" an array of validation methods
+    -   Ex:
+        -   Field: fullName
+        -   Validations: RequiredField, MinLength
+        -   builder.field('fullName').required().minLength(5)
