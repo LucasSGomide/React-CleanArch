@@ -2,30 +2,34 @@ name: CleanReact Lint & Unit-Test
 on: [push]
 jobs:
     install-dependencies:
-        - name: Checkout
+        - name: Install Dependencies
           runs-on: ubuntu-latest
           uses: actions/checkout@v3
 
-        - name: Setup node
-          uses: actions/setup-node@v3
-          with:
-              node-version: 16.13.x
-              cache: npm
         steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16.13.x
+                  cache: npm
+
             - name: Install
               run: npm ci
 
     run-lint:
+        - name: ESLint
         needs: install-dependencies
-        name: ESLint
 
         steps:
             - name: run ESLint
               run: npx eslint 'src/**'
 
     run-unit-tests:
+        - name: Unit-Test
         needs: install-dependencies
-        name: Unit-Test
 
         steps:
             - name: run test:ci
