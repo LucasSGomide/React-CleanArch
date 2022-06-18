@@ -1,6 +1,4 @@
-### Workflow Status
-
-![TEST](https://github.com/LucasSGomide/cleanArch_React/actions/workflows/github-action.yml/badge.svg)
+![JOB-STATUS](https://github.com/LucasSGomide/cleanArch_React/actions/workflows/github-action.yml/badge.svg)
 
 ### API Documentation:
 
