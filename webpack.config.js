@@ -1,7 +1,8 @@
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 
-module.exports = {
+module.exports = (env) => ({
     mode: 'development',
     entry: './src/main/index.tsx',
     output: {
@@ -53,5 +54,8 @@ module.exports = {
         react: 'React',
         'react-dom': 'ReactDOM',
     },
-    plugins: [new CleanWebpackPlugin()],
-}
+    plugins: [
+        new CleanWebpackPlugin(),
+        new Dotenv({ path: `./.env.${env.dev ? 'dev' : 'prod'}` }),
+    ],
+})
