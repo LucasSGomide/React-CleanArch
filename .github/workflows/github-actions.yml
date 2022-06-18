@@ -1,0 +1,8 @@
+name: GitHub Actions Demo
+on: [push]
+jobs:
+    EsLint:
+        runs-on: ubuntu-latest
+        steps:
+            - run: eslint 'src/**'
+            - run: npm run test:ci
