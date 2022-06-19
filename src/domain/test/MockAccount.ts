@@ -3,11 +3,11 @@ import faker from 'faker'
 import { AuthParams } from '@/domain/usecases'
 import { AccountModel } from '../models'
 
-export const createMockAuthParams = (): AuthParams => ({
+export const mockAuthParams = (): AuthParams => ({
     email: faker.internet.email(),
     password: faker.internet.password(),
 })
 
-export const createMockAccountModel = (): AccountModel => ({
+export const mockAccountModel = (): AccountModel => ({
     accessToken: faker.random.uuid(),
 })
