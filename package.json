@@ -10,7 +10,8 @@
         "test:staged": "npm test -- --findRelatedTests",
         "test:ci": "npm test -- --coverage",
         "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info",
-        "lint": "npx eslint './src/**'"
+        "lint": "npx eslint './src/**'",
+        "husky:prepare": "husky install"
     },
     "keywords": [],
     "author": "",
