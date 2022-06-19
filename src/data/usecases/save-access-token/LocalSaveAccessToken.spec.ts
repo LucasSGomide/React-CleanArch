@@ -1,33 +1,33 @@
 import faker from 'faker'
 
 import { LocalSaveAccesToken } from './LocalSaveAccessToken'
-import { SetStorageSpy } from '@/data/test/MockStorage'
+import { SetStorageMock } from '@/data/test/MockStorage'
 
 type SutTypes = {
     sut: LocalSaveAccesToken
-    setStorageSpy: SetStorageSpy
+    setStorageMock: SetStorageMock
 }
 
 const makeSut = (): SutTypes => {
-    const setStorageSpy = new SetStorageSpy()
-    const sut = new LocalSaveAccesToken(setStorageSpy)
+    const setStorageMock = new SetStorageMock()
+    const sut = new LocalSaveAccesToken(setStorageMock)
 
     return {
         sut,
-        setStorageSpy,
+        setStorageMock,
     }
 }
 
 describe('LocalSaveAccesToken', () => {
     test('Should call SetStorage with correct access token', async () => {
+        const { sut, setStorageMock } = makeSut()
         const accessToken = faker.random.uuid()
-        const { sut, setStorageSpy } = makeSut()
-        // jest.spyOn(setStorageSpy, 'set')
+        // jest.spyOn(setStorageMock, 'set')
 
         await sut.save(accessToken)
 
-        expect(setStorageSpy.key).toBe('accessToken')
-        expect(setStorageSpy.value).toBe(accessToken)
-        // expect(setStorageSpy.set).toBeCalledWith('accessToken', accessToken)
+        expect(setStorageMock.key).toBe('accessToken')
+        expect(setStorageMock.value).toBe(accessToken)
+        // expect(setStorageMock.set).toBeCalledWith('accessToken', accessToken)
     })
 })
