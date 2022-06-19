@@ -41,7 +41,7 @@ const SignUp: React.FC = () => {
                 />
 
                 <button className={Styles.submit} type="submit">
-                    Sign In
+                    Sign Up
                 </button>
                 <Link to="/login" className={Styles.link}>
                     Back to Login
