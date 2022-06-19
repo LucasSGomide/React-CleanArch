@@ -263,6 +263,21 @@ describe('Login', () => {
         expect(history.index).toBe(1)
     })
 
+    test('Should present error if SaveAccessToken fails', async () => {
+        const { user, saveAccessTokenMock } = makeSut()
+        const error = new InvalidCredentialsError()
+
+        jest.spyOn(saveAccessTokenMock, 'save').mockRejectedValueOnce(error)
+
+        await simulateValidSubmit(user)
+
+        const errorContainer = screen.getByTestId('error-container')
+        const errorMessage = within(errorContainer).getByText(error.message)
+
+        expect(errorContainer.childElementCount).toBe(1)
+        expect(errorMessage).toBeInTheDocument()
+    })
+
     test('Should go to to sign up page', async () => {
         const { user, history } = makeSut()
         const signUpLink = screen.getByRole('link')
