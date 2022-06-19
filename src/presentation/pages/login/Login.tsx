@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Styles from './login-styles.scss'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { IAuthentication } from '@/domain/usecases'
+import { IAuthentication, ISaveAccessToken } from '@/domain/usecases'
 import { IValidation } from '@/presentation/protocols/Validation'
 import {
     LoginHeader,
@@ -23,9 +23,14 @@ type LoginState = {
 type LoginProps = {
     validation: IValidation
     authentication: IAuthentication
+    saveAccessToken: ISaveAccessToken
 }
 
-const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
+const Login: React.FC<LoginProps> = ({
+    validation,
+    authentication,
+    saveAccessToken,
+}) => {
     const navigate = useNavigate()
     const [state, setState] = useState<LoginState>({
         isLoading: false,
@@ -70,7 +75,7 @@ const Login: React.FC<LoginProps> = ({ validation, authentication }) => {
                 password: state.password,
             })
 
-            localStorage.setItem('accessToken', account.accessToken)
+            await saveAccessToken.save(account.accessToken)
             navigate('/')
         } catch (err) {
             setState((prevstate) => ({
