@@ -1,5 +1,5 @@
 name: ESLint & Unit-Test
-on: [push]
+on: [push, pull_request]
 jobs:
     eslint:
         runs-on: ubuntu-latest
