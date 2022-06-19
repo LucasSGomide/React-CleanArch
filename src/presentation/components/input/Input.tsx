@@ -4,9 +4,9 @@ import Styles from './input-styles.scss'
 type InputProps = {
     type: string
     name: string
-    placeholder: string
-    errorMessage: string
-    onInputChange: React.Dispatch<React.SetStateAction<any>>
+    placeholder?: string
+    errorMessage?: string
+    onInputChange?: React.Dispatch<React.SetStateAction<any>>
 }
 
 const Input: React.FC<InputProps> = ({
