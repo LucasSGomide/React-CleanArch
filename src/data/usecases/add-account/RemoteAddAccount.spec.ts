@@ -3,7 +3,7 @@ import faker from 'faker'
 import { AccountModel } from '@/domain/models'
 import { mockAddAccountParams } from '@/domain/test'
 import { AddAccountParams } from '@/domain/usecases'
-import { EmailInUseError } from '@/domain/errors'
+import { EmailInUseError, UnexpectedError } from '@/domain/errors'
 import { HttpPostClientSpy } from '@/data/test'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { RemoteAddAccount } from './RemoteAddAccount'
@@ -53,5 +53,16 @@ describe('RemoteAddAccount', () => {
         const promise = sut.add(params)
 
         await expect(promise).rejects.toThrow(new EmailInUseError())
+    })
+
+    test('Should throw UnexpectedError if HttpPostClient returns 400', async () => {
+        const params = mockAddAccountParams()
+        const { sut, httpPostClientSpy } = makeSut()
+
+        httpPostClientSpy.response = { statusCode: HttpStatusCode.badRequest }
+
+        const promise = sut.add(params)
+
+        await expect(promise).rejects.toThrow(new UnexpectedError())
     })
 })
