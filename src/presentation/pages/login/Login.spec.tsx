@@ -2,12 +2,12 @@ import React from 'react'
 import faker from 'faker'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory, MemoryHistory } from 'history'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { UserEvent } from '@testing-library/user-event/dist/types/setup'
 import '@testing-library/jest-dom/extend-expect'
 
 import Login from './Login'
-import { ValidationSpy, AuthenticationSpy, SaveAccesTokenMock } from '@/presentation/test'
+import { ValidationSpy, AuthenticationSpy, SaveAccesTokenMock, Helper } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
 import { Router } from 'react-router-dom'
 
@@ -59,7 +59,7 @@ const simulateValidSubmit = async (
     await populateEmailField(user, email)
     await populatePasswordField(user, password)
 
-    const signInButton = screen.getByRole('button', { name: 'Sign In' })
+    const signInButton = Helper.getButtonElement('Sign In')
 
     await userEvent.click(signInButton)
 }
@@ -99,14 +99,8 @@ describe('Login', () => {
 
         const { validationSpy } = makeSut({ validationError })
 
-        const errorContainer = screen.getByTestId('error-container')
-        const signInButton = screen.getByRole('button', {
-            name: 'Sign In',
-        })
-
-        expect(errorContainer.childElementCount).toBe(0)
-        expect(signInButton).toBeDisabled()
-
+        Helper.testChildCount('error-container', 0)
+        Helper.testButtonIsDisabled('Sign In')
         testFieldStatus('email', validationSpy, validationError)
         testFieldStatus('password', validationSpy, validationError)
     })
@@ -171,9 +165,7 @@ describe('Login', () => {
         await populateEmailField(user)
         await populatePasswordField(user)
 
-        const signInButton = screen.getByRole('button', { name: 'Sign In' })
-
-        expect(signInButton).toBeEnabled()
+        Helper.testButtonIsEnabled('Sign In')
     })
 
     test('Should show spin on submit', async () => {
@@ -206,7 +198,7 @@ describe('Login', () => {
         await populateEmailField(user, email)
         await populatePasswordField(user, password)
 
-        const signInButton = screen.getByRole('button', { name: 'Sign In' })
+        const signInButton = Helper.getButtonElement('Sign In')
 
         await userEvent.click(signInButton)
         await userEvent.click(signInButton)
@@ -231,11 +223,7 @@ describe('Login', () => {
 
         await simulateValidSubmit(user)
 
-        const errorContainer = screen.getByTestId('error-container')
-        const errorMessage = within(errorContainer).getByText(error.message)
-
-        expect(errorContainer.childElementCount).toBe(1)
-        expect(errorMessage).toBeInTheDocument()
+        Helper.testRequestError(error)
     })
 
     test('Should call SaveAccessToken on success', async () => {
@@ -260,11 +248,7 @@ describe('Login', () => {
 
         await simulateValidSubmit(user)
 
-        const errorContainer = screen.getByTestId('error-container')
-        const errorMessage = within(errorContainer).getByText(error.message)
-
-        expect(errorContainer.childElementCount).toBe(1)
-        expect(errorMessage).toBeInTheDocument()
+        Helper.testRequestError(error)
     })
 
     test('Should go to to sign up page', async () => {
