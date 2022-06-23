@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Styles from './sign-up-styles.scss'
 import { Link } from 'react-router-dom'
 
-import {
-    LoginHeader,
-    Input,
-    FormStatus,
-    Footer,
-} from '@/presentation/components'
+import { LoginHeader, Input, FormStatus, Footer } from '@/presentation/components'
 
 const SignUp: React.FC = () => {
+    const [state] = useState({
+        isLoading: false,
+        nameError: 'Required Field',
+        emailError: 'Required Field',
+        passwordError: 'Required Field',
+        passwordConfirmationError: 'Required Field',
+        requestError: '',
+    })
+
+    const { isLoading, nameError, emailError, passwordError, passwordConfirmationError } = state
+
     return (
         <div className={Styles.signup}>
             <LoginHeader />
@@ -20,34 +26,38 @@ const SignUp: React.FC = () => {
                     type="text"
                     name="name"
                     placeholder="Your name here..."
+                    errorMessage={nameError}
                 />
 
                 <Input
                     type="email"
                     name="email"
                     placeholder="Your e-mail here..."
+                    errorMessage={emailError}
                 />
 
                 <Input
                     type="password"
                     name="password"
                     placeholder="Your password here..."
+                    errorMessage={passwordError}
                 />
 
                 <Input
+                    errorMessage={passwordConfirmationError}
                     type="password"
                     name="passwordConfirmation"
                     placeholder="Confirm your password..."
                 />
 
-                <button className={Styles.submit} type="submit">
+                <button disabled className={Styles.submit} type="submit">
                     Sign Up
                 </button>
                 <Link to="/login" className={Styles.link}>
                     Back to Login
                 </Link>
 
-                <FormStatus isLoading={false} errorMessage={''} />
+                <FormStatus isLoading={isLoading} errorMessage={''} />
             </form>
             <Footer />
         </div>
