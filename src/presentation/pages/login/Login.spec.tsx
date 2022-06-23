@@ -7,11 +7,7 @@ import { UserEvent } from '@testing-library/user-event/dist/types/setup'
 import '@testing-library/jest-dom/extend-expect'
 
 import Login from './Login'
-import {
-    ValidationSpy,
-    AuthenticationSpy,
-    SaveAccesTokenMock,
-} from '@/presentation/test'
+import { ValidationSpy, AuthenticationSpy, SaveAccesTokenMock } from '@/presentation/test'
 import { InvalidCredentialsError } from '@/domain/errors'
 import { Router } from 'react-router-dom'
 
@@ -93,15 +89,11 @@ const testFieldStatus = (
 ): void => {
     const fieldStatus = screen.getByTestId(`${field}-status`)
 
-    expect(fieldStatus.title).toBe(
-        validationError ? validationSpy.errorMessage : 'All good!'
-    )
+    expect(fieldStatus.title).toBe(validationError ? validationSpy.errorMessage : 'All good!')
     expect(fieldStatus.textContent).toBe(validationError ? '🔴' : '🟢')
 }
 
 describe('Login', () => {
-    beforeEach(() => localStorage.clear())
-
     test('Should mount component with initial state', () => {
         const validationError = faker.random.words()
 
@@ -247,17 +239,14 @@ describe('Login', () => {
     })
 
     test('Should call SaveAccessToken on success', async () => {
-        const { user, history, authenticationSpy, saveAccessTokenMock } =
-            makeSut()
+        const { user, history, authenticationSpy, saveAccessTokenMock } = makeSut()
 
         expect(history.location.pathname).toBe('/login')
         expect(history.index).toBe(0)
 
         await simulateValidSubmit(user)
 
-        expect(saveAccessTokenMock.accessToken).toBe(
-            authenticationSpy.account.accessToken
-        )
+        expect(saveAccessTokenMock.accessToken).toBe(authenticationSpy.account.accessToken)
 
         expect(history.location.pathname).toBe('/')
         expect(history.index).toBe(1)
