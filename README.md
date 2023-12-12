@@ -3,8 +3,6 @@
 
 ### API Documentation:
 
--   [DOCUMENTATION](http://fordevs.herokuapp.com/api-docs/#/)
-
 ### Notes:
 
 -   Receive an Complex Object as params instead of primitive types
